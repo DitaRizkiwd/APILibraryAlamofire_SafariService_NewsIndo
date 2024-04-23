@@ -1,5 +1,5 @@
 //
-//  NewsViewModel.swift
+//  NewsTribunViewModel.swift
 //  NewsIndo
 //
 //  Created by MACBOOK PRO on 23/04/24.
@@ -8,20 +8,18 @@
 import Foundation
 
 @MainActor
-class NewsViewModel : ObservableObject{
-    @Published var articles = [NewsArticle]()
+class NewsTribunViewModel : ObservableObject {
+    @Published var articles = [ArticleNewsTribun]()
     @Published var isLoading = false
     @Published var errorMessage: String?
     
-    
-    
-    func fetchNews() async{
+    func fetchNewsTribun() async{
         isLoading = true
         defer {isLoading = false}
         errorMessage = nil
         
         do{
-            articles = try await APIService.shared.fetchNews()
+            articles = try await APIService.shared.fetchNewsTribun()
 //            isLoading = false
         }
         catch{
@@ -29,5 +27,4 @@ class NewsViewModel : ObservableObject{
             print(errorMessage ?? "N/A")
         }
     }
-    
 }

@@ -31,4 +31,22 @@ class APIService{
         }
         return news
     }
+    
+    func fetchNewsTribun() async throws -> [ArticleNewsTribun]{
+        guard let url = URL(string: Constant.newsTribunURL)
+        else{
+            throw URLError(.badURL)
+        }
+        let newstribun = try await withCheckedThrowingContinuation{
+            continuation in AF.request(url).responseDecodable(of: TribunNewsModel.self) {
+                response in switch response.result{
+                case .success(let newsResponse):
+                    continuation.resume(returning: newsResponse.data)
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+        return newstribun
+    }
 }
